@@ -60,4 +60,5 @@ class RegistroUsuarioTest(TestCase):
         
     def test_registro_vista(self):
         view = resolve("/usuario/registro/resolve")
-        self.assertEqual(view.func.__name__,RegistroUsuarioView.as_view().__name__)    
+        self.assertEqual(view.func.__name__,RegistroUsuarioView.as_view().__name__)
+        #Test Registro Visita  
