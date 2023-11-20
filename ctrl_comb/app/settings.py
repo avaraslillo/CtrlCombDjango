@@ -37,9 +37,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+        #All auth
+    'django.contrib.sites',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.twitter',
+    'crispy_forms',
+    'crispy_bootstrap5',
+    #local
     'bases',
     'usuarios',
     'paginas',
+
+
 ]
 
 MIDDLEWARE = [
@@ -143,3 +155,31 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "usuarios.Usuario"
 LOGIN_REDIRECT_URL = "core:home"
 LOGOUT_REDIRECT_URL = "usuarios:login"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+AUTHENTICATION_BACKENDS = [
+    #Si utilizamos el login de Django
+    'django.contrib.auth.backends.ModelBackend',
+    #Utilizando ALLAUTH
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+]
+
+SITE_ID = 1
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google':{
+        'SCOPE':[
+            'profile',
+            'email'
+        ],
+        'AUTH_PARAMS':{
+            'access_type':'online'
+        }
+    }
+}
+
+
