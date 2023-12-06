@@ -8,9 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block titulo %}App Control Combustible x Curso Django para Profesionales{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap_quartz.min.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 </head>
 
-<body id="body">
+<body id="body" hx-headers='{"X-CSRFToken":"{{csrf_token}}"}'>
     <!--Menu-->
     {% include "fragments/menu.html" %}
     <!--Fin menu-->

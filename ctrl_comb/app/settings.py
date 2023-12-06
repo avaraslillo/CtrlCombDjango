@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'bases',
     'usuarios',
     'paginas',
+    'ctrl_comb',
 
 
 ]
