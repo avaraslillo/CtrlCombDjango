@@ -1,0 +1,37 @@
+{% load static %}
+
+<script>
+$(function(){
+    $("#tbl").DataTable({
+        language:{
+            url: "{% static 'plugins/datatable/es.json' %}" 
+        },
+        ajax:{
+            url:"{% url 'control:modelo_dt' %}",
+            dataSrc:"datos",
+
+        },
+        columns:[
+            {
+                data:"mark"},
+                {data: "descript"
+            },
+            {data: null,
+                className:"dt-center editor-edit text-success",
+                defaultContent: '<i class="bi bi-pencil-square"></i>',
+                orderable:false
+            },
+            {data: null,
+                className:"dt-center editor-edit text-danger",
+                defaultContent: '<i class="bi bi-trash"></i>',
+                orderable:false
+            }
+        ],
+        dom: 'Bftrip',
+        processing:true,
+        serverSide:true,
+        pageLength:15,
+
+    });
+});
+</script>

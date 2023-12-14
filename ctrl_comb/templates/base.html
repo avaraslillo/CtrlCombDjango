@@ -9,6 +9,9 @@
     <title>{% block titulo %}App Control Combustible x Curso Django para Profesionales{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap_quartz.min.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="{% static 'plugins/datatable/datatables.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/datatable/Responsive-2.5.0/css/responsive.bootstrap5.min.css' %}">
 </head>
 
 <body id="body" hx-headers='{"X-CSRFToken":"{{csrf_token}}"}'>
@@ -22,11 +25,39 @@
             {% endblock contenido%}            
         </div>
     </div>
+    <div id="popup" class="modal fade">
 
+    </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js" integrity="sha512-TPh2Oxlg1zp+kz3nFA0C5vVC6leG/6mm1z9+mA81MI5eaUVqasPLO8Cuk4gMF4gUfP5etR73rgU/8PNMsSesoQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/htmx.min.js' %}"></script>
+
+    <script src="{% static 'plugins/datatable/datatables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatable/Buttons-2.4.2/js/buttons.bootstrap5.min.js' %}"></script>
+
+    <script src="{% static 'js/sweetalert.js' %}"></script>
+   
+    <script>
+        function abrir_modal(url){
+            console.log(url);
+            $('#popup').load(url,function(){
+                $(this).modal({
+                    backdrop:"static",
+                    keyboard:false,
+
+                });
+                $(this).modal('show');
+            });
+        }
+
+        function cerrar_modal(){
+            $('#popup').modal('hide');
+            return false;
+        }
+    </script>
+    {% block js %}
+    {% endblock %}
 </body>
 
 </html>

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+<form action="" method="post">
+    {% csrf_token %}
+{% include "fragments/titulo.html" %}
+
+        {% include "fragments/card_start.html" with header="Borrar" %}
+        ¿Eliminar {{obj}}?
+        <button type="submit" class="btn btn-danger"><i class="far-fa-question-circle"></i> Sí, Eliminar</button>
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-success">
+            <span class="fa fa-undo"></span> No, Cancelar
+        </a>
+        {% include "fragments/card_end.html" %}
+</form>
+{% endblock %}

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block contenido %}
 
 {% include "fragments/titulo.html" %}
@@ -19,4 +19,8 @@
         </div>
         {% include "fragments/card_end.html" %}
 
+{% endblock %}
+
+{% block js %}
+{% include "fragments/datatable.html" %}
 {% endblock %}
