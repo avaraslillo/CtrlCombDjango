@@ -47,43 +47,18 @@
 {% endblock %}
 
 {% block js %}
-{% include "fragments/datatable.html" %}
+
 
 <script>
-    function borrar(id,d)
-    {
-        Swal.fire({
-            title: "¿Procedo?",
-            text: "¿Procedes a eliminar "+d+"?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-            if (result.isConfirmed) {
-                var url= `{% url 'control:modelo_list' %}delete/${id}`;
-                $.ajax({
-                    headers:{"X-CSRFToken":"{{csrf_token}}"},
-                    type: "POST",
-                    url: url,
-                    success: function(r,textStatus,xhr){
-                        if(xhr.status==200){
-                            Swal.fire('Borrado',
-                            `${d} Borrado satisfactoriamente`,
-                            'success').then(
-                                function(){
-                                    location.reload()
-                                }
-                            )
-                        }
-                    },
-                    error: function(jqXHR, textStatus, error){
-                        Swal.fire("Error",textStatus,'error')
-                    }
-                })
-            }
-        });
-    }
+
 </script>
 {% endblock %}
+
+{% block dtName %}#tbl{% endblock %}
+
+{% block dtColumns %}
+{data:"mark"},{data: "descript"}
+{% endblock %}
+{% block dtUrl %}{% url 'control:modelo_dt' %}{% endblock %}
+{% block dtUrlEdit %}/control/models/modal{% endblock %}
+{% block dtUrlDelete %}{% url 'control:modelo_list' %}/delete/{% endblock %}
