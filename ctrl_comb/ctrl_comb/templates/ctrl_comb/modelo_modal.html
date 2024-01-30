@@ -12,12 +12,10 @@
           </div>
           <div class="modal-body">
             {{form|crispy}}
-            <p>Modal body text goes here.</p>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-stop-circle"></i> Guardar</button>
             <a href="{% url 'control:modelo_list' %}"><i class="bi bi-x-octagon-fill"></i> Cancelar</a>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           </div>
         </form>
 

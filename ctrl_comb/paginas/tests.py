@@ -1,10 +1,14 @@
-from django.test import SimpleTestCase
+from django.test import TestCase, SimpleTestCase
 from django.urls import reverse
 
 
 # Create your tests here.
 
-class AboutPageTests(SimpleTestCase):
+class AboutPageTests(TestCase):
+    databases = {'default'}
+
+
+
     def setUp(self):
         self.response = self.client.get("/pages/about")
 

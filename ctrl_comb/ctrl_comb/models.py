@@ -1,8 +1,9 @@
 from django.db import models
+from bases.models import ClassModelo
 
 # Create your models here.
 
-class Mark(models.Model):
+class Mark(ClassModelo):
     descript = models.CharField(
         max_length=50,
         unique=True
@@ -15,7 +16,7 @@ class Mark(models.Model):
         verbose_name = "Marca"
         verbose_name_plural = "Marcas"
 
-class Modelo(models.Model):
+class Modelo(ClassModelo):
     descript = models.CharField(
         max_length = 50,
         db_comment = "Descripción del modelo de Vehículo"
@@ -29,5 +30,8 @@ class Modelo(models.Model):
     class Meta:
         verbose_name_plural = "Modelos"
         db_table_comment = "Modelos de Vehículos"
+        permissions = [
+            ("permiso_especial","Puede Leer y Editar Modelos"),
+        ]
 
     

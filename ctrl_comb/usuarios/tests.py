@@ -15,7 +15,8 @@ class CustomUserTests(TestCase):
         usr = User.objects.create_user(
             username = "debsconsultores",
             email = "debsconsultores@gmail.com",
-            password = "ozymandias2795"
+            password = "ozymandias2795",
+            first_name="debs"
         )
 
     #Qué esperamos
@@ -31,7 +32,8 @@ class CustomUserTests(TestCase):
         usr = User.objects.create_superuser(
             username = "debsconsultores",
             email = "debsconsultores@gmail.com",
-            password = "ozymandias2795"
+            password = "ozymandias2795",
+            first_name="debs"
         )
 
     #Qué esperamos
