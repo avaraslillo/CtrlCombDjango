@@ -13,6 +13,12 @@ urlpatterns = [
     path("models/modal/<int:pk>",ModeloEditModal.as_view(),name="modelo_edit_modal"),
     path("models/modal/new",ModeloNewModal.as_view(),name="modelo_new_modal"),
     path("models/dt",modelo_dt,name="modelo_dt"),
+
+    path("vehicles/",VehiculoList.as_view(),name="vehiculo_list"),
+    path("vehicles/dt",vehiculo_dt,name="vehiculo_dt"),
+    path("vehicles/new",VehiculoNewModal.as_view(),name="vehiculo_new"),
+    path("vehicles/modal/<int:pk>",VehiculoEditModal.as_view(),name="vehiculo_edit"),
+    path("vehicles/delete/<int:pk>",VehiculoDelete.as_view(),name="vehiculo_delete"),
 ]
 
 

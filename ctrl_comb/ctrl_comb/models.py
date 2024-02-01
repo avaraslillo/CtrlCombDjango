@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from bases.models import ClassModelo
 
 # Create your models here.
@@ -33,5 +34,25 @@ class Modelo(ClassModelo):
         permissions = [
             ("permiso_especial","Puede Leer y Editar Modelos"),
         ]
+
+class Vehiculo(ClassModelo):
+    modelo = models.ForeignKey(Modelo, on_delete=models.RESTRICT)
+    register = models.CharField(
+        max_length=50,
+        db_column="Matrícula Vehículo",
+        help_text="Matrícula Vehículo")
+    
+    year = models.PositiveSmallIntegerField(help_text="Año del Vehículo")
+
+    def __str__(self):
+        return self.register
+    
+    def get_absolute_url(self):
+        return reverse("vehiculo_edit",kwargs={'pk':self.pk}
+                       )
+    class Meta:
+        verbose_name_plural="Vehículos"
+        db_table_comment="Vehículos"
+
 
     

@@ -1,0 +1,63 @@
+{% load crispy_forms_tags %}
+
+    <div class="modal-dialog modal-fullscreen" role="document">
+      <div class="modal-content">
+        <form action="{{ request.path }}" method="POST">
+          {% csrf_token %}
+          <div class="modal-header">
+            <h5 class="modal-title">{% if obj %}Editar {% else %}Nuevo {% endif %}Vehículo </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="modal-body">
+            {#{form|crispy}#}
+            <div class="row">
+              <div class="col-6">
+                
+                <select name="mark" id="id_mark" class="select form-select">
+                  <option value="">Seleccione Marca</option>
+                  {% for o in marcas%}
+                  <option value="{{o.id}}">{{o.descript}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-6">
+                <select name="modelo" id="id_modelo"  class="select form-select">
+                  <option value="">Seleccione Modelo</option>
+                  {% for o in modelos%}
+                  <option value="{{o.id}}" data-chained="{{o.mark.id}}">{{o.descript}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">{{form.register|as_crispy_field}}</div>
+              <div class="col-6">{{form.year|as_crispy_field}}</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-stop-circle"></i> Guardar</button>
+            <a href="{% url 'control:modelo_list' %}"><i class="bi bi-x-octagon-fill"></i> Cancelar</a>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+    <script>
+      $(function(){
+
+        {% if obj %}
+        $("#id_mark").val("{{obj.modelo.mark.id}}").trigger("change");
+        $("#id_modelo").val("{{obj.modelo.id}}").trigger("change");
+        {% endif %}
+        $('.form-select').select2({
+          theme:"bootstrap-5"
+        });
+        $("#id_modelo").chained("#id_mark");
+        
+      })
+
+      
+    </script>

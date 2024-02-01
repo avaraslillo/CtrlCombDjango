@@ -1,3 +1,4 @@
+from typing import Any
 from django.forms.models import BaseModelForm
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
@@ -214,9 +215,110 @@ def modelo_dt(request):
     context["datos"]=datos
     return JsonResponse(context,safe=False)
 
+class VehiculoList(SinAutorizacion,TemplateView):
+    template_name="ctrl_comb/vehiculo.html"
+    login_url="core:home"
+    permission_required="ctrl_comb.view_vehiculo"
+
+@login_required(login_url="usuarios:login")
+@permission_required("ctrl_comb.view_modelo")
+def vehiculo_dt(request):
+    context = {}
+    datos = request.GET
+    draw = int(datos.get("draw"))
+    start = int(datos.get("start"))
+    length = int(datos.get("length"))
+    search = datos.get("search[value]")
+
+    registros = Modelo.objects.all()
+
+    if request.user.is_superuser:
+        registros = Vehiculo.objects.all()
+
+    else:
+        registros = Modelo.objects.filter(uc=request.user)
+
+    
+
+    if search:
+        registros = registros.filter(
+            Q(modelo__mark__descript__icontains=search) | 
+            Q(modelo__descript__icontains=search) |
+            Q(register__icontains=search) |
+            Q(year__icontains=search)
+        )
+
+    recordsTotal = registros.count()
+   # recordsFiltered = recordsTotal
+
+    context["draw"] = draw
+    context["recordsTotal"] = recordsTotal
+    context["recordsFiltered"] = recordsTotal
+
+    reg = registros[start:start + length]
+
+    paginator = Paginator(reg,length)
+
+    try:
+        obj = paginator.page(draw).object_list
+    except PageNotAnInteger:
+        obj = paginator.page(draw).object_list
+    except EmptyPage:
+        obj = paginator.page(paginator.num_pages).object_list
+    #datos = []
+    #for o in obj:
+     #   datos.append({"id":o.id,"mark":o.mark__descript,"descript":o.descript})
+
+    datos = [
+        {
+            "id" : o.id, "mark" : o.modelo.mark.descript,"modelo" : o.modelo.descript,
+            "register":o.register,"year":o.year
+        } for o in obj
+
+    ]
+
+    context["datos"]=datos
+    return JsonResponse(context,safe=False)
 
 
+class VehiculoNewModal(SinAutorizacion,MixinSaveUser,CreateView):
+    model=Vehiculo
+    template_name="ctrl_comb/vehiculo_modal.html"
+    context_object_name="obj"
+    form_class=VehiculoForm
+    success_url=reverse_lazy("control:vehiculo_list")
 
+    login_url="usuarios:login"
+    permission_required = "ctrl_comb.add_vehiculo"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["marcas"] = Mark.objects.all()
+        context["modelos"] = Modelo.objects.all()
+        return context
+
+class VehiculoEditModal(SinAutorizacion,MixinSaveUser,UpdateView):
+    model=Vehiculo
+    template_name="ctrl_comb/vehiculo_modal.html"
+    context_object_name="obj"
+    form_class=VehiculoForm
+    success_url=reverse_lazy("control:vehiculo_list")
+
+    login_url="usuarios:login"
+    permission_required = "ctrl_comb.change_vehiculo"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["marcas"] = Mark.objects.all()
+        context["modelos"] = Modelo.objects.all()
+        return context
+
+
+class VehiculoDelete(DeleteView):
+    model=Vehiculo
+    template_name="bases/delete.html"
+    context_object_name="obj"
+    success_url=reverse_lazy("control:vehiculo_list") 
 
 
 
